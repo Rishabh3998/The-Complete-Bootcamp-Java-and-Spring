@@ -26,5 +26,7 @@ Data-types:
      - Boolean
      - boolean => takes true or false only 
 
+Note: The values which we pass in the variable are known as "Literals". Eg: int num = 25; // 25 is literal
+
 
 2. Non-Primitive (Reference) Data-types

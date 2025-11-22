@@ -29,5 +29,15 @@ public class Main {
         System.out.println("Grade: " + grade);
         System.out.println("Passed: " + isPassed);
         System.out.println("Large Number: " + largeNumber);
+
+        int binaryNum = 0b1010; // Binary literal for 10
+        int hexNum = 0x1A;    // Hexadecimal literal for 26
+        int formatNum = 1_000_000; // Using underscores for better readability
+        double scientificNum = 12e10; // Scientific notation for 1.2E11
+
+        System.out.println("Binary Number: " + binaryNum);
+        System.out.println("Hexadecimal Number: " + hexNum);
+        System.out.println("Formatted Number: " + formatNum);
+        System.out.println("Scientific Notation Number: " + scientificNum);
     }
 }
