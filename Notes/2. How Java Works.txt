@@ -1,0 +1,90 @@
+When we were using JShell triggered via command jshell in terminal, the statement System.out.print("Hello World!!")
+was working fine, without any extra boiler-plate code, but when we tried to run this simple statement via our IDE
+everything broke down.
+
+So, to understand the issue we need to understand how Java works behind the scenes.
+
+We have something called JVM, by default we call Java is platform independent. It is because we have JVM in our machine.
+JVM gets installed irrespective of which OS you have, so every system has JVM in it which is running any JAVA program.
+Java is platform independent because of JVM but JVM is not platform independent, we cannot run JVM on ios, so this shows
+and concludes that our application is platform independent but JVM is not platform independent. JVM needs to be build 
+for particular OS.
+
+JVM says that it is his responsibility to make our application platform independent, so for that we need to submit our 
+code to JVM, but JVM only understands ByteCode, therefore we need to first convert our Java Code to ByteCode then we have to
+pass this ByteCode to JVM.
+
+To convert our JAVA code to ByteCode we have a thing called Compiler [the Java Compiler (Javac)], this compiler compiles our
+Java Code and creates the ByteCode which we can submit to JVM.
+
+Now, in our large project, large codebase there can be thousands of file, and out of those there will be one file which JVM 
+will execute, JVM will start with the first file and rest will be done according to the order. Now we need to tell JVM which
+one is the first file, and we will specify which one is the first file and that file should have a main method. So, the first
+file need to have a main method. Here we are referring the entry point of the code as the first file, the main function should
+have the signature.
+
+Signature: public static void main (String[] args) {}
+
+Abbreviations we are using:
+1. JDK => Java Development Kit
+2. JVM => Java Virtual Machine
+3. JRE => Java Runtime Environment
+
+
+Java Source (.java)
+    |
+    v
+[JDK]
+  - javac (Java Compiler)
+    |
+    v
+Java Bytecode (.class/.jar)
+    |
+    v
+[JRE -> JVM]
+  - Class Loader
+  - Bytecode Verifier
+  - Interpreter / JIT Compiler
+    |
+    v
+Native Machine Code (runs on OS/Hardware)
+
+(Notes: JDK = JRE + development tools (javac). javac turns .java -> .class (bytecode).
+JVM executes bytecode and may JIT-compile hot code to native instructions.)
+JAVA is WORA (Write Once Run Anywhere)
+
+Note: The extension for ByteCode is .class and for Java Code it is .java
+
+JRE => JVM + Libraries which are required for execution of the code
+JRE (Java Runtime Environment) — concise notes
+
+What JRE is
+- JRE = JVM + core class libraries + supporting native libraries/tools required to run Java programs.
+- Provides the Java API implementations (java.lang, java.util, java.io, etc.), the class loader, native method interfaces, 
+and runtime services like the garbage collector.
+- Historically distributed as a separate installable package; in modern Java (9+) the JRE is an image inside the JDK and can 
+be customized (jlink).
+
+Why the JVM needs the JRE
+- JVM executes bytecode but does not implement the standard Java API. The JRE supplies the class library implementations that 
+bytecode depends on.
+- Core classes (the “bootstrap” classes) must be available at runtime so the JVM can load, link, and initialize them; without 
+the JRE's libraries the JVM cannot resolve symbols or run typical Java code (e.g., java.lang.Object, System).
+- Native methods and platform-specific implementations used by high-level APIs live in the JRE's native libraries; the JVM calls 
+into those to perform I/O, threading, GUI, and other OS interactions.
+- The JRE also provides runtime services (classpath/module resolution, security/verification helpers, locale data, resource bundles) 
+that the JVM relies on to provide a correct execution environment.
+
+Relationship between JVM, JRE, and JDK
+- JRE contains the JVM as a component. The JVM is the execution engine; the JRE is the execution environment (engine + libraries).
+- JDK (Java Development Kit) = JRE + developer tools (javac, jlink, javadoc, etc.). For development you use the JDK; for just 
+running apps you install the JRE or a runtime image.
+- All three are platform-specific binaries: JVM and the native parts of the JRE are built per OS/architecture, but Java bytecode 
+and the Java API are platform-independent.
+
+Practical implications
+- Installing a JVM alone is meaningless for running applications — you need the JRE libraries too.
+- Custom runtime images (jlink) can produce a minimal JRE that contains only the modules your app needs, reducing size while 
+preserving the JVM+libraries relationship.
+
+With the use of JDK we always get the updated JRE and JVM.

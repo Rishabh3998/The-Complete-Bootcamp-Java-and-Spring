@@ -1,0 +1,22 @@
+This course is a one-stop solution for Java, Spring, Microservices. Also we are going to deploy our application
+on Cloud. On the whole enterprise level Java and spring is the widely use tech stack, which provides us scalability, 
+security and a huge community support.
+
+We start with Core Java, then we will move towards Advance Java.
+Post this we need to know about a build tool, we have 2 build tools - Maven and Gradle, here we will learn about Maven.
+
+Then we will cover how to connect our Java application with Database, after this Spring will be there and spring boot.
+We will also cover: Spring JDBC, REST using Spring Boot, Spring Data JPA, Spring AOP, Spring Security, JWT and OAuth2, 
+Docker, Microservices and much more....
+
+The projects on which we will work upon:
+
+1. Quiz application
+2. Job application
+3. Ecommerce application
+4. Microservices implementation in quiz application
+
+The most popular Integrated Development Environment (IDE) for Java is IntelliJ IDEA.
+Download IDE, JDK (Java Development Kit) from Oracle [Use LTS (Long term Support) version]
+
+Note: We need Java to run the application and we need JavaC to compile the Java code.
