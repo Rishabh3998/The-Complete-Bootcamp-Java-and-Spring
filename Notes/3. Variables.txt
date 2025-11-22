@@ -1,0 +1,30 @@
+Variables are container which we use to store data. We can use these data in future to perform any kind of operation.
+
+Data-types:
+
+1. Primitive Data-types
+   - Integer -> byte, short, int, long
+   - Float -> double (by-default), float
+   - Character
+   - Boolean
+
+   - Size and Range of data-types:
+     
+     - Integer
+     - byte => 1 byte (-2^7 to 2^7 => -128 to 127)
+     - short => 2 bytes (-2^15 to 2^15 - 1)
+     - int => 4 bytes (-2^31 to 2^31 - 1)
+     - long => 8 bytes (-2^63 to 2^63 - 1)
+
+     - float
+     - float => 4 bytes
+     - double => 8 bytes
+
+     - Character
+     - char => 2 bytes (uses UNICODE for numbers)
+
+     - Boolean
+     - boolean => takes true or false only 
+
+
+2. Non-Primitive (Reference) Data-types

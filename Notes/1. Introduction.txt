@@ -19,4 +19,6 @@ The projects on which we will work upon:
 The most popular Integrated Development Environment (IDE) for Java is IntelliJ IDEA.
 Download IDE, JDK (Java Development Kit) from Oracle [Use LTS (Long term Support) version]
 
-Note: We need Java to run the application and we need JavaC to compile the Java code.
+Note: We need Java to run the application and we need JavaC to compile the Java code. Java is a strongly typed language, 
+which means to declare any variables we have to define proper data types, which will determine what kind of data the variable
+will store.
