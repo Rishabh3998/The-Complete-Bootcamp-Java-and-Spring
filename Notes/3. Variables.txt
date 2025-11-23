@@ -1,6 +1,6 @@
 Variables are container which we use to store data. We can use these data in future to perform any kind of operation.
 
-Data-types:
+### Data-types:
 
 1. Primitive Data-types
    - Integer -> byte, short, int, long
@@ -30,3 +30,218 @@ Note: The values which we pass in the variable are known as "Literals". Eg: int 
 
 
 2. Non-Primitive (Reference) Data-types
+
+Definition
+- Types whose variables store references (addresses) to objects on the heap rather than raw values.
+- Examples: String, arrays, classes (custom types), interfaces, enums, wrapper classes (Integer, Double), collections (List, Map), Optional.
+
+Characteristics
+- Stored on the heap; variables hold a reference (pointer) stored on the stack.
+- Default value for uninitialized reference variables is null.
+- Methods and fields belong to the object's class; objects can encapsulate state and behavior.
+- Equality: "==" compares references; use .equals() for logical equality (implement properly).
+- Passed to methods by value of the reference (the reference is copied).
+
+Uses / Responsibilities
+- Model real-world entities and group related data + behavior (objects).
+- Provide rich APIs and behavior (methods) beyond primitive storage.
+- Implement abstractions and polymorphism via interfaces and inheritance.
+- Compose/aggregate data structures (arrays, collections) to manage groups of values.
+- Enable generic programming and collections that require objects (use wrappers for primitives).
+- Support immutability or controlled mutability depending on design (e.g., DTOs vs. entities).
+
+Pros
+- Expressiveness: can represent complex structures and behavior.
+- Reusability and modularity via classes, interfaces, inheritance.
+- Rich standard library objects (String, Collections) simplify tasks.
+- Encapsulation and OOP features (methods, access control).
+- Can implement custom equality, hashing, serialization, validation.
+
+Cons / Costs
+- Memory overhead: objects require header + fields; more expensive than primitives.
+- GC overhead: allocation and garbage collection cost runtime resources.
+- Null-related errors (NullPointerException) if null not handled.
+- Indirection: extra pointer dereference can reduce performance.
+- Mutability pitfalls: shared mutable objects lead to aliasing bugs if not managed.
+- Need to implement equals/hashCode correctly for collections and hashing behavior.
+
+Best Practices
+- Prefer primitives for hot-path, performance-sensitive counters/flags.
+- Prefer immutable objects where possible (easier reasoning, thread-safety).
+- Use Optional to avoid nulls for return values when appropriate.
+- Implement toString(), equals(), hashCode() for value-like classes.
+- Minimize unnecessary object creation; reuse immutable instances if safe.
+- Use interfaces for APIs; program to abstractions, not concrete implementations.
+- Validate inputs and avoid exposing internal mutable state (defensive copies).
+- Use wrapper types only when required (collections, generics, reflection).
+
+Common Pitfalls
+- Confusing reference equality (==) with logical equality (.equals()).
+- Forgetting to handle nulls or not documenting nullability.
+- Mutating shared objects without synchronization in multi-threaded code.
+- Using heavy object creation in tight loops (prefer primitives or pooling).
+
+Quick examples (conceptual)
+- String: immutable reference type used for text.
+- Array: fixed-size container of primitives or references.
+- List/Map: flexible size collections for grouping objects.
+- Class/POJO: models entity with fields + behavior; often used for application data.
+
+Summary
+Non-primitive types are central to Java's object-oriented design: they enable modeling and behavior but come with memory, 
+GC, and null-safety considerations. Use them to encapsulate logic and data, favor immutability and clear equality contracts, 
+and avoid unnecessary object churn for performance-sensitive code.
+
+
+
+### Type Conversions and Casting
+
+Definition
+- Conversion: transforming a value from one type to another.
+- Casting: explicit syntax to tell the compiler to convert a value to a target type.
+- Two broad categories: primitive conversions and reference conversions.
+
+1) Primitive conversions
+
+a. Widening (implicit)
+- Converts a smaller-range type to a larger-range type without explicit cast.
+- Safe: no compile-time error and no loss of range (though precision for floats may differ).
+- Examples:
+    - byte -> short -> int -> long -> float -> double
+    - char -> int -> long -> float -> double
+- Occurs automatically on assignment and when a value is used where a wider type is expected:
+    - int i = 42; long L = i; // implicit
+
+b. Narrowing (explicit)
+- Converts from a wider type to a narrower type and must use an explicit cast.
+- Risk of data loss (truncation, precision loss) or change of value.
+- Syntax: (targetType) value
+- Examples:
+    - long L = 123456789L; int i = (int) L; // explicit, possible truncation
+    - double d = 3.14; int x = (int) d; // becomes 3, fractional part discarded
+
+c. Numeric promotion rules
+- In binary numeric operations, byte/short/char are promoted to int before the operation.
+    - byte b = 1; byte c = 2; // b + c is int, needs cast to assign to byte
+    - byte r = (byte)(b + c);
+- Mixed-type arithmetic promotes to the wider operand type (e.g., int + double -> double).
+- Compound assignment operators perform an implicit cast back to the left-hand type:
+    - short s = 1; s += 5; // no cast required, equivalent to s = (short)(s + 5)
+
+d. Floating vs integer
+- Converting from float/double to integer truncates the fractional part.
+- Converting integer to float/double may lose precision if value exceeds mantissa.
+
+2) Reference (object) conversions
+
+a. Upcasting (implicit)
+- Casting from a subclass to a superclass or from implementing class to interface is implicit.
+- Always safe at compile time: reference type becomes more general.
+    - Animal a = new Dog(); // implicit upcast
+
+b. Downcasting (explicit)
+- Casting from a superclass to a subclass requires an explicit cast.
+- Risky: may throw ClassCastException at runtime if the actual object is not an instance of the target type.
+    - Dog d = (Dog) a; // needs explicit cast
+- Use instanceof to guard before casting:
+    - if (a instanceof Dog) { Dog d = (Dog) a; }
+
+c. Polymorphism and method dispatch
+- Method selection is runtime-based (virtual dispatch) but reference type affects which methods/fields are accessible at compile time.
+
+3) Boxing and unboxing (primitive <-> wrapper)
+
+- Boxing: automatic conversion of a primitive into its wrapper class (int -> Integer).
+- Unboxing: wrapper -> primitive (Integer -> int).
+- Both can be implicit (autoboxing / autounboxing), but null wrappers can cause NullPointerException during unboxing.
+    - Integer I = 5; int i = I; // boxing & unboxing
+
+4) Compile-time vs Runtime considerations
+
+- Compile-time checks:
+    - The compiler enforces that certain conversions require explicit casts.
+    - Type compatibility of references and primitives is validated.
+- Runtime checks:
+    - ClassCastException for invalid reference downcasts.
+    - No runtime exception for numeric narrowing — it produces a truncated/converted value.
+
+5) Special cases & rules summary
+
+- char is integral: can be converted to/from int; char -> byte may require cast.
+- boolean is not convertible to/from numeric types.
+- Assignment conversion: some implicit conversions allowed (widening, boxing/unboxing), others require explicit cast.
+- Method invocation conversions: arguments are converted to the declared parameter types using standard conversions.
+- Array covariance: Subtype[] is a subtype of Supertype[] (e.g., Dog[] -> Animal[]) — can lead to ArrayStoreException at runtime if you insert wrong type.
+
+6) Common pitfalls
+
+- Assuming == works for wrapper equality (use .equals for value equality of wrappers).
+- Implicit numeric promotion leading to unexpected results (e.g., integer division losing fraction).
+- Silent truncation on narrowing conversions.
+- Unchecked downcast causing ClassCastException.
+- NullPointerException when unboxing a null wrapper.
+
+7) Quick examples
+
+- Implicit widening:
+    - int i = 10; double d = i; // 10.0
+- Explicit narrowing:
+    - double d = 9.7; int i = (int) d; // i == 9
+- Reference casting:
+    - Object o = "text"; String s = (String) o; // safe
+    - Object o2 = new Object(); String s2 = (String) o2; // ClassCastException at runtime
+- Guarded cast:
+    - if (o2 instanceof String) s2 = (String) o2;
+
+Summary
+- Prefer implicit (widening) conversions when possible.
+- Use explicit casts for narrowing and downcasts, and guard downcasts with instanceof.
+- Be mindful of precision loss and runtime exceptions (ClassCastException, NPE on unboxing).
+
+Eg:
+
+*********************
+byte b = 127;
+int a = 256;
+
+b = a; (Note possible because we cannot store 256 in byte it is out of range)
+
+a = b; (This will be done via implicit type casting, the byte will convert to int and get stored in a, also no storage issue will be there).
+*********************
+
+*********************
+byte b = 127;
+int a = 12;
+
+b = a; (Storage problem is not there but still it will give error, because a is int and b is byte)
+b = (byte)a; (This will work because we are doing explicit typecasting to solve this type issue)
+*********************
+
+*********************
+float f = 5.6f;
+int x = (int)f; // 5 will be stored in x
+*********************
+
+
+*********************
+byte b = 127;
+int a = 257;
+
+b = (byte)a; // as the value of a is out of range for byte data-type, so to store value a concept called modulus will be used here.
+
+// BTS:
+257 % (complete range of byte i.e. -128 to 127)
+257 % 256 = 1
+*********************
+
+*********************
+### Type promotion:
+
+byte a = 10;
+byte b = 30;
+
+int result = a * b; // Here after the multiplication the resultant will cross the range of byte and then Java will promote the result 
+// into int and store the int value in the result. 
+ 
+System.out.println(result);
+*********************
