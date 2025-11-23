@@ -1,0 +1,157 @@
+### Arithmetic Operators:
+
+- Basic operators:
+    +  (addition), -  (subtraction), *  (multiplication), /  (division), %  (remainder)
+    Unary: +, - ; Increment/decrement: ++, --
+
+- Integer vs floating-point:
+    - Integer division truncates toward zero (5 / 2 == 2).
+    - Floating-point division produces decimal results (5.0 / 2 == 2.5).
+    - Integer division by zero throws ArithmeticException; floating-point division by zero yields Infinity or NaN.
+
+- Remainder behavior:
+    - a % b yields the remainder; sign follows the dividend (a). Example: -5 % 3 == -2.
+
+- Promotions and types:
+    - byte, short, and char are promoted to int for arithmetic; result is at least int.
+    - Assigning back to a smaller type requires an explicit cast unless a compound assignment is used.
+
+- Compound assignments:
+    - +=, -=, *=, /=, %= perform the operation and implicitly cast the result to the left-hand type
+        Example: short s = 1; s += 2; // no cast needed
+
+- Pre- vs post-increment:
+    - ++i increments first, then yields the new value.
+    - i++ yields the original value, then increments.
+    - Order matters in expressions: int x = i++ + 5 vs int x = ++i + 5.
+
+- Precedence and associativity (summary):
+    - Unary (+, -, ++, --) highest, then multiplicative (*, /, %), then additive (+, -), then assignment.
+    - Multiplicative and additive are left-associative.
+
+- Other notes:
+    - Integer overflow wraps around (no exception) for byte/short/int/long.
+    - + is overloaded for String concatenation: "a" + 1 -> "a1".
+
+
+
+### Relational Operators:
+
+- Operators:
+    >, <, >=, <=, ==, !=
+
+- Result:
+    - Always produce a boolean value (true/false).
+
+- Applicable types:
+    - Numeric primitives (byte, short, char, int, long, float, double) — relational (<,>,<=,>=) apply.
+    - == and != also apply to boolean.
+    - == and != applied to reference types compare object references (identity), not content.
+
+- Type promotion:
+    - Operands are promoted to a common numeric type before comparison:
+        - byte/short/char -> int; then int -> long -> float -> double as needed.
+    - Comparing wrapper types with numeric relational operators causes unboxing; a null wrapper will throw NullPointerException.
+
+- Special float/double rules:
+    - Any comparison (<, >, <=, >=) with NaN returns false.
+    - For primitives: NaN == NaN is false, NaN != NaN is true.
+    - +0.0 == -0.0 is true for primitives.
+    - Wrapper behaviors differ:
+        - Double.equals/Float.equals use bitwise equality: NaN equals NaN; +0.0 and -0.0 are not equal via equals.
+        - Double.compare/Float.compare provide a total ordering (useful for sorting).
+
+- Objects and content equality:
+    - Use obj.equals(other) (or Objects.equals(a,b) to handle nulls) to test logical/content equality.
+    - Use == only for identity checks (same object reference).
+
+- Boolean comparisons:
+    - Only == and != are valid for booleans.
+
+- Chaining:
+    - You cannot chain relational comparisons like (1 < x < 3). Use logical operators: (1 < x && x < 3).
+
+- Precedence & associativity:
+    - Relational operators have lower precedence than arithmetic operators and higher than equality.
+    - They are left-associative.
+
+- Pitfalls & tips:
+    - Beware of precision issues when comparing floating-point values; prefer a tolerance (epsilon) for "equality".
+    - Avoid == on Strings/boxed values when you mean logical equality; prefer equals()/Objects.equals().
+    - Watch for implicit unboxing which can produce NullPointerException.
+
+- Examples:
+    - 5 > 3 -> true
+    - 5.0 / 2 == 2.5 -> true
+    - Double.NaN < 1.0 -> false
+    - new String("a") == new String("a") -> false (different references)
+    - Objects.equals(a, b) -> safe content equality (handles nulls)
+
+
+
+### Logical Operators:
+
+- Operators:
+    - Conditional (short-circuit): && (AND), || (OR)
+    - Logical/bitwise (non-short-circuit when applied to booleans): & (AND), | (OR)
+    - Logical XOR: ^ (boolean XOR)
+    - Logical complement: ! (NOT)
+
+- Operand types:
+    - Primarily used with boolean primitives or expressions producing boolean.
+    - &, |, ^ also operate on integer types as bitwise operators (different semantics).
+
+- Short-circuiting:
+    - && and || are conditional operators: evaluate left operand first, then evaluate right only if needed.
+        - For A && B: if A is false, B is not evaluated (result false).
+        - For A || B: if A is true, B is not evaluated (result true).
+    - Use short-circuiting to avoid side effects or exceptions (e.g., obj != null && obj.method()).
+
+- Non-short-circuit behavior:
+    - & and | on boolean operands evaluate both sides always (useful when both sides must be evaluated).
+    - On integer operands, &, | perform bitwise operations on every bit.
+
+- Logical XOR (^):
+    - For booleans: true when operands differ (A ^ B == (A && !B) || (!A && B)).
+    - For integers: bitwise XOR.
+
+- Logical NOT (!):
+    - Unary operator that flips boolean value: !true -> false, !false -> true.
+
+- Precedence & associativity:
+    - Order (high to low): ! (unary) -> & (bitwise) -> ^ -> | -> && -> ||
+    - All are left-associative (evaluate left-to-right for chained same-precedence ops).
+    - Parentheses clarify intent and override precedence.
+
+- Interaction with other operators:
+    - Relational and equality operators commonly produce booleans used with logical operators:
+        - (a > b) && (b > c)
+    - Beware of operator precedence when mixing with bitwise operators; add parentheses if unclear.
+
+- Short-circuit pitfalls & tips:
+    - Rely on &&/|| to prevent unnecessary work or NPEs.
+    - Do not depend on side effects in right-hand operands when using &&/|| (they may not run).
+    - Use & or | intentionally when you need both operands evaluated.
+
+- Boolean wrappers & boxing:
+    - Using Boolean (wrapper) values causes unboxing for these operators, which can throw NullPointerException if wrapper is null.
+    - Prefer primitive boolean in expressions to avoid unexpected NPEs.
+
+- De Morgan's laws (useful for simplification and negation):
+    - !(A && B) == (!A) || (!B)
+    - !(A || B) == (!A) && (!B)
+
+- Examples:
+    - true && false -> false
+    - true || false -> true
+    - true & (1/0 > 0) -> throws ArithmeticException (right side evaluated)
+    - true && (1/0 > 0) -> short-circuited; right side not evaluated -> no exception
+    - (a > 0) ^ (b > 0) -> true if exactly one is positive
+
+- Usage guidance:
+    - Use &&/|| for typical conditional logic and control-flow checks.
+    - Use &, |, ^ when bitwise behavior or guaranteed evaluation is required.
+    - Keep expressions readable with parentheses and favor short-circuiting to avoid errors.
+
+
+

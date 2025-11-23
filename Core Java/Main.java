@@ -39,5 +39,71 @@ public class Main {
         System.out.println("Hexadecimal Number: " + hexNum);
         System.out.println("Formatted Number: " + formatNum);
         System.out.println("Scientific Notation Number: " + scientificNum);
+
+        // Arithmetic Operations
+        int number1 = 15;
+        int number2 = 20;
+
+        int resultantAdd  = number1 + number2;
+        int resultantSub  = number2 - number1;
+        int resultantMul  = number1 * number2;
+        int resultantDiv  = number2 / number1; // Gives quotient
+        int resultantMod  = number2 % number1; // Gives remainder
+
+        System.out.println(resultantAdd); // Output: 35
+        System.out.println(resultantSub); // Output: 5
+        System.out.println(resultantMul); // Output: 300        
+        System.out.println(resultantDiv); // Output: 1
+        System.out.println(resultantMod); // Output: 5
+
+        number1++; // Increment by 1
+        number2--; // Decrement by 1
+        System.out.println("After Increment, number1: " + number1); // Output: 16
+        System.out.println("After Decrement, number2: " + number2); // Output: 19
+
+        number1 += 5; // Equivalent to number1 = number1 + 5    
+        number2 -= 3; // Equivalent to number2 = number2 - 3    
+        System.out.println("After Adding 5, number1: " + number1); // Output: 21
+        System.out.println("After Subtracting 3, number2: " + number2); // Output: 16
+
+        number1 = number1 * 2; // Equivalent to number1 = number1 * 2    
+        number2 = number2 / 4; // Equivalent to number2 = number2 / 4    
+        System.out.println("After Multiplying by 2, number1: " + number1); // Output: 42
+        System.out.println("After Dividing by 4, number2: " + number2); // Output: 4
+
+        ++number1; // Pre-increment
+        --number2; // Pre-decrement
+        System.out.println("After Pre-Increment, number1: " + number1); // Output: 43
+        System.out.println("After Pre-Decrement, number2: " + number2); // Output: 3     
+        
+        // Relational Operators
+        int x = 6;
+        int y = 5;
+
+        boolean resultantRelation = x < y; // Output: false
+        boolean resultantRelation2 = x > y; // Output: true
+        boolean resultantRelation3 = x <= y; // Output: false
+        boolean resultantRelation4 = x >= y; // Output: true
+        boolean resultantRelation5 = x == y; // Output: false
+        boolean resultantRelation6 = x != y; // Output: true    
+
+        System.out.println(resultantRelation);
+        System.out.println(resultantRelation2);
+        System.out.println(resultantRelation3);     
+        System.out.println(resultantRelation4);
+        System.out.println(resultantRelation5);
+        System.out.println(resultantRelation6); 
+
+        // Logical Operators
+        boolean a = true;
+        boolean b = false;  
+
+        boolean andResult = a && b; // Output: false
+        boolean orResult = a || b;  // Output: true
+        boolean notResult = !a;     // Output: false    
+        
+        System.out.println(andResult);
+        System.out.println(orResult);
+        System.out.println(notResult);  
     }
 }
