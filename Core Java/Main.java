@@ -105,5 +105,110 @@ public class Main {
         System.out.println(andResult);
         System.out.println(orResult);
         System.out.println(notResult);  
+
+        // Conditional Statement
+        // If statement
+        int xIf = 8;
+        if (xIf > 10) {
+            System.out.println("x is greater than 10");
+        }
+
+        // If-Else statement
+        int yIfElse = 5;
+        if (yIfElse % 2 == 0) {
+            System.out.println("y is even");
+        } else {
+            System.out.println("y is odd");     
+        }
+
+        // if-else-if ladder
+        int score = 85;
+        if (score >= 90) {      
+            System.out.println("Grade: A");
+        } else if (score >= 80) {
+            System.out.println("Grade: B");
+        } else if (score >= 70) {
+            System.out.println("Grade: C");
+        } else {
+            System.out.println("Grade: F");
+        }
+
+        // Nested If statement
+        int zNestedIf = 15;
+        if (zNestedIf > 10) {       
+            if (zNestedIf < 20) {
+                System.out.println("z is between 10 and 20");
+            }
+        }
+
+        // Ternary Operator
+        int aTernary = 12;
+        String resultTernary = (aTernary % 2 == 0) ? "a is even" : "a is odd";
+        System.out.println(resultTernary);
+
+        // Switch Statement
+        int day = 3;
+        switch (day) {      
+            case 1:
+                System.out.println("Monday");
+                break;
+            case 2:
+                System.out.println("Tuesday");
+                break;
+            case 3:
+                System.out.println("Wednesday");
+                break;
+            case 4:
+                System.out.println("Thursday");
+                break;
+            case 5:
+                System.out.println("Friday");
+                break;
+            case 6:
+                System.out.println("Saturday");
+                break;
+            case 7:
+                System.out.println("Sunday");
+                break;
+            default:
+                System.out.println("Invalid day");
+        }
+
+        // Loops
+        // For Loop
+        for (int i = 1; i <= 5; i++) {      
+            System.out.println("For Loop iteration: " + i);
+        }       
+
+        // Multiple Initialization and Update in For Loop
+        for (int i = 1, j = 5; i <= 5 && j >= 1; i++, j--) {      
+            System.out.println("i: " +      i + ", j: " + j);   
+        }   
+
+        // Ways to write For Loop
+        // 1. Standard For Loop
+        for (int i = 0; i < 5; i++) {
+            System.out.println("Standard For Loop iteration: " + i);
+        }       
+
+        // 2. Enhanced For Loop (For-Each Loop)
+        int[] numbers = {10, 20, 30, 40, 50};
+        for (int num : numbers) {   
+            System.out.println("Enhanced For Loop number: " + num);     
+        }
+
+        // While Loop
+        int j = 1;
+        while (j <= 5) {    
+            System.out.println("While Loop iteration: " + j);
+            j++;
+        }
+
+        // Do-While Loop
+        int k = 1;
+        do {      
+            System.out.println("Do-While Loop iteration: " + k);
+            k++;
+        } while (k <= 5);
     }
 }

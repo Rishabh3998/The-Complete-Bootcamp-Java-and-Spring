@@ -1,0 +1,83 @@
+### Conditional Statements in Java
+
+- If Statement:
+The simplest form of a conditional statement. It executes a block of code if the condition is true.
+Example:
+if (condition) {
+    // ...
+}
+
+- If-Else Statement:
+Executes one block when a condition is true and another when it is false.
+Example:
+if (condition) {
+    // true branch
+} else {
+    // false branch
+}
+
+- Else-If (if-else-if ladder):
+Chain multiple mutually exclusive conditions; evaluated top-to-bottom.
+Example:
+if (cond1) {
+    // ...
+} else if (cond2) {
+    // ...
+} else {
+    // fallback
+}
+
+- Nested If:
+Place an if (or if-else) inside another to test dependent conditions.
+Use sparingly—prefer decomposition or early returns for readability.
+
+- Ternary Operator (conditional expression):
+Compact if-else that returns a value: condition ? exprIfTrue : exprIfFalse
+Example:
+int max = (a > b) ? a : b;
+
+- Switch Statement (traditional):
+Selects a branch based on a single expression (int, enum, String, etc.).
+Remember fall-through behavior; use break to avoid it.
+Example:
+switch (value) {
+    case 1:
+        // ...
+        break;
+    case 2:
+        // ...
+        break;
+    default:
+        // ...
+}
+
+- Enhanced Switch (Java 12+/14+ improvements):
+More concise, supports arrow labels, multiple labels, and switch as an expression returning a value.
+Example (statement form):
+switch (value) {
+    case 1, 2 -> doSomething();
+    case 3 -> doAnother();
+    default -> doDefault();
+}
+Example (expression form):
+String res = switch (value) {
+    case 1 -> "one";
+    case 2 -> "two";
+    default -> "other";
+};
+
+- Short-circuit boolean operators in conditionals:
+Use && and || to combine conditions; they short-circuit (right side not evaluated if result already known).
+Useful to guard against nulls or expensive operations:
+if (obj != null && obj.isReady()) { ... }
+
+- instanceof (type check) and pattern matching:
+Test an object's type; modern Java supports binding the casted variable inline:
+if (obj instanceof String s) {
+    // use s directly
+}
+
+Notes:
+- Prefer clear, small conditional blocks. Avoid deep nesting by returning early or extracting methods.
+- Use switch (enhanced) for clearer multi-branch selection when matching a single value.
+- Use the ternary operator only for simple expressions; complex logic belongs in if-else blocks.

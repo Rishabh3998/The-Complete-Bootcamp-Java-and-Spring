@@ -1,0 +1,38 @@
+### Loops
+
+- Basic for loop
+for (int i = 0; i < 5; i++) {
+    System.out.println("Iteration: " + i);
+}
+
+- Enhanced for loop (for-each) - for iterating over arrays/collections
+int[] numbers = {1, 2, 3, 4, 5};
+for (int num : numbers) {
+    System.out.println(num);
+}
+
+- While loop
+int i = 0;
+while (i < 5) {
+    System.out.println("While loop: " + i);
+    i++;
+}
+
+- Do-while loop - executes at least once
+int j = 0;
+do {
+    System.out.println("Do-while loop: " + j);
+    j++;
+} while (j < 5);
+
+- Break statement - exits loop early
+for (int k = 0; k < 10; k++) {
+    if (k == 5) break;
+    System.out.println(k);
+}
+
+- Continue statement - skips current iteration
+for (int m = 0; m < 5; m++) {
+    if (m == 2) continue;
+    System.out.println(m);
+}
