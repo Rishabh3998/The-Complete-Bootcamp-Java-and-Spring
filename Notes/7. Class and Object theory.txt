@@ -1,0 +1,101 @@
+### Class and Object basics
+
+1) What is a class?
+- A class is a blueprint or template that defines the properties (state) and behaviors (methods) for objects.
+- Syntax: "class ClassName { /* fields, constructors, methods */ }"
+
+2) What is an object?
+- An object is a concrete instance of a class created at runtime.
+- Each object has its own state stored in instance variables.
+
+3) Important class components
+- Fields (instance variables): store object state (e.g., name, age).
+- Methods: functions that operate on fields / perform actions.
+- Constructors: special methods used to create objects (same name as the class).
+    - Default constructor: no-arg; provided automatically if none defined.
+    - Parameterized constructors: initialize fields at creation.
+- Access modifiers:
+    - public: accessible anywhere.
+    - private: accessible only within the class (use getters/setters to access).
+    - protected / package-private: control narrower visibility.
+- static members: belong to the class itself, not to instances.
+
+4) Key concepts
+- Encapsulation: hide internal state; expose behavior via methods/getters/setters.
+- Abstraction: focus on essential behavior, hide implementation details.
+- Inheritance: classes extend other classes to reuse/extend behavior.
+- Polymorphism: treat subclass objects as instances of superclass (method overriding).
+- Immutability: objects whose state cannot change after creation (final fields, no setters).
+
+5) Memory notes (simple)
+- Objects live on the heap.
+- References to objects can live on the stack (local variables).
+- static members live in the class area (shared across instances).
+
+6) Example: simple class and usage
+
+public class Person {
+        // fields (state)
+        private String name;
+        private int age;
+
+        // default constructor
+        public Person() {
+                this.name = "Unknown";
+                this.age = 0;
+        }
+
+        // parameterized constructor
+        public Person(String name, int age) {
+                this.name = name;
+                this.age = age;
+        }
+
+        // getters / setters (encapsulation)
+        public String getName() { return name; }
+        public void setName(String name) { this.name = name; }
+
+        public int getAge() { return age; }
+        public void setAge(int age) { this.age = age; }
+
+        // behavior
+        public void sayHello() {
+                System.out.println("Hi, my name is " + name + " and I'm " + age + " years old.");
+        }
+
+        // override toString for easy printing
+        @Override
+        public String toString() {
+                return "Person{name='" + name + "', age=" + age + "}";
+        }
+}
+
+public class Main {
+        public static void main(String[] args) {
+                // create objects (instances)
+                Person p1 = new Person();                  // default constructor
+                Person p2 = new Person("Alice", 30);       // parameterized constructor
+
+                p1.setName("Bob");
+                p1.setAge(25);
+
+                p1.sayHello();   // prints: Hi, my name is Bob and I'm 25 years old.
+                System.out.println(p2); // prints Person{name='Alice', age=30}
+        }
+}
+
+7) Practical tips for beginners
+- Prefer private fields + getters/setters for encapsulation.
+- Use constructors to ensure objects start in a valid state.
+- Keep classes focused (Single Responsibility Principle).
+- Start with simple POJOs (Plain Old Java Objects) to model data.
+- Experiment in a small main() or unit tests to create/use objects and observe behavior.
+
+8) Short checklist when creating a class
+- What state is needed? -> fields
+- What actions are needed? -> methods
+- How will the object be created? -> constructors
+- What should be visible outside? -> choose access modifiers
+- Should any logic be shared across instances? -> static
+
+That's a compact guide to classes and objects in Java — enough to get started and to write simple class-based code.

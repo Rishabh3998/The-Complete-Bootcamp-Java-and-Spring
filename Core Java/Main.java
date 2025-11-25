@@ -210,5 +210,35 @@ public class Main {
             System.out.println("Do-While Loop iteration: " + k);
             k++;
         } while (k <= 5);
+
+        // Class and Object
+        // Syntax:
+        // ClassName objectName = new ClassName();
+        Calculator calc = new Calculator();
+
+        int sum = calc.add(10, 20);
+        System.out.println("Sum from Calculator class: " + sum);
     }
 }
+
+// Object Oriented Programming:
+
+// Object - Properties and Behaviors
+// - Each object has its own state and behaviors.
+// - Example: Dog object
+//   - Properties: breed, color, age
+//   - Behaviors: bark(), fetch()   
+
+// To create object, we need a Class first (Object are created by JVM)
+
+class Calculator {
+    // Properties
+    int num1;
+    int num2;
+
+    // Methods
+    public int add(int a, int b) {
+        return a + b;
+    }
+}
+
