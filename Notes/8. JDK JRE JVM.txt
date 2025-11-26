@@ -1,0 +1,114 @@
+### JDK, JRE, JVM
+===========================
+
+Definitions
+-----------
+- JVM (Java Virtual Machine)
+    - An abstract computing machine that runs Java bytecode.
+    - Responsible for loading classes, bytecode verification, executing code (interpreter + JIT), and runtime services (GC, thread scheduling).
+    - JVM is a specification; implementations include HotSpot, OpenJ9, GraalVM.
+
+- JRE (Java Runtime Environment)
+    - A distribution that contains a JVM implementation + core Java class libraries and supporting files required to run Java programs.
+    - Provides the "java" runtime command and standard runtime classes (java.lang.*, java.util.*, etc).
+    - Historically distributed separately, but modern JDK builds bundle a runtime image.
+
+- JDK (Java Development Kit)
+    - A superset of the JRE that contains development tools for building Java applications: javac (compiler), jar, jdb, javap, etc., plus the JRE.
+    - Used by developers to compile, package and debug Java apps.
+
+How it works — lifecycle
+------------------------
+1. Write Java source: MyApp.java
+2. Compile (JDK tool): javac MyApp.java -> MyApp.class (Java bytecode)
+3. Run (JRE/JVM): java MyApp
+     - JVM class loader loads MyApp.class and its dependencies.
+     - Bytecode verifier checks code for correctness/safety.
+     - Execution: interpreter executes bytecode; hot code may be compiled to native code by JIT for performance.
+     - Runtime services: Garbage Collector manages heap; threads run on native OS threads.
+
+JVM runtime data areas (overview)
+- Heap — object storage, garbage collected
+- Method Area (PermGen / Metaspace) — class metadata
+- Java Stacks — per-thread method frames, local variables
+- PC Registers — per-thread instruction pointer
+- Native Method Stack — for native (JNI) calls
+
+Relation between JDK, JRE, and JVM
+-----------------------------------
+- JDK contains tools + JRE.
+- JRE contains the JVM + core libraries.
+- JVM is the runtime engine inside JRE that executes bytecode.
+    Relationship: Source -> (JDK: javac) -> bytecode -> (JRE/JVM) -> executed.
+
+Differences (short)
+-------------------
+- Purpose:
+    - JDK — develop/compile/debug Java programs.
+    - JRE — run Java programs.
+    - JVM — execute Java bytecode.
+- Contents:
+    - JDK = javac + other dev tools + JRE
+    - JRE = JVM + core libraries
+    - JVM = runtime engine (plus implementation components)
+- Audience:
+    - Devs: JDK
+    - End users or servers that only run apps: JRE (or runtime image)
+    - JVM: execution-level concept (developers/runtime implementors)
+
+Notes / Modern Java
+-------------------
+- Since Java 9+, tool jlink can create custom runtime images; distributions may not always include a separate "JRE" folder.
+- Many vendors provide JDK builds that include a runtime; separate consumer JREs are less commonly distributed.
+- JVM implementations may vary in GC, JIT, performance characteristics (HotSpot vs OpenJ9 vs GraalVM).
+
+Common commands
+---------------
+- javac MyApp.java   # compile (JDK)
+- java MyApp         # run with JVM (from JRE/JDK)
+- java -version      # JVM implementation/version info
+- javap -c MyApp     # view bytecode (JDK)
+
+Quick summary line:
+- JDK = develop; JRE = run; JVM = engine that runs bytecode.
+
++-------------+   (1) javac   +-----------+   (2) .class   +-----------+   (3) runtime     +-----------+
+| Java source | ----------->  |   JDK     | -------------> | Bytecode  | --------------->  |   JRE     |
+|  MyApp.java |               | (compiler)|                |  MyApp.class|                 | (libs +   |
++-------------+               +-----------+                +-----------+                   | JVM impl) |
+                                                                                           +-----------+
+                                                                                                  |
+                                                                                                  v
+                                                                                          +-----------------+
+                                                                                          |    JVM engine   |
+                                                                                          |  classloader    |
+                                                                                          |  verifier       |
+                                                                                          |  interpreter /  |
+                                                                                          |  JIT / GC / OS  |
+                                                                                          +-----------------+
+                                                                                                  |
+                                                                                                  v
+                                                                                             Native OS / HW
+
+
++------------------+-----------------------------------------------+-------------------------------------------+----------------------------------------------+
+| Feature          | JDK                                           | JRE                                       | JVM                                          |
++------------------+-------------------------------------------+--------------------------------------+-------------------------------------------------------+
+| Purpose          | Develop, compile, package, debug Java         | Run Java applications                     | Execute Java bytecode                        |
+| Contents         | javac, jar, jdb, javap, other dev tools + JRE | JVM implementation + core class libraries | Class loader, verifier, interpreter, JIT, GC |
+| Audience         | Developers                                    | End users, servers running apps           | Runtime implementors / execution layer       |
+| Typical commands | javac, jar, jdb, javap, java                  | java, java -version                       | No direct CLI (part of runtime)              |
+| Distribution     | Full SDK (includes JRE and tools)             | Runtime image (smaller than JDK)          | Embedded inside JRE/JDK                      |
+| When to install  | When you need to build/compile Java apps      | When you only need to run Java apps       | Always present in the runtime used           |
++------------------+-----------------------------------------------+-------------------------------------------+----------------------------------------------+
+
+
++-------------------------------------------------+
+|  JDK (Development Kit — tools + runtime)        |
+|  +--------------------------------------------+ |
+|  | JRE (Runtime Environment — libs + JVM)    |  |
+|  |  +--------------------------------------+ |  |
+|  |  | JVM (Java Virtual Machine — engine) |  |  |
+|  |  +--------------------------------------+ |  |
+|  +--------------------------------------------+ |
++-------------------------------------------------+
