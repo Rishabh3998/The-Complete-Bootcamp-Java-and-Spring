@@ -1,0 +1,171 @@
+### Methods
+
+1. What is a method?
+- A method is a named block of code that belongs to a class (or object instance).
+- It encapsulates behavior/logic so that it can be reused, tested, and composed.
+- In Java, methods are executed when called/invoked.
+
+2. Why use methods?
+- Reuse: avoid repeating logic.
+- Abstraction: hide implementation details behind a clear API.
+- Organization: break complex tasks into smaller, understandable parts.
+- Testability: unit-test small, focused pieces of behavior.
+- Maintainability: easier to change one method than scattered code.
+
+3. Anatomy of a method (Java)
+- Modifiers (public/private/protected/default, static, final, synchronized)
+- Return type (int, String, void, T)
+- Name (camelCase, descriptive)
+- Parameter list (comma-separated types and names) or empty ()
+- Optional throws clause for checked exceptions
+- Method body in { } with statements and return if non-void
+
+Example:
+public static int add(int a, int b) throws IllegalArgumentException {
+    return a + b;
+}
+
+4. Instance methods vs static methods
+- Instance method: operates on instance data, called on an object (obj.method()).
+- Static method: belongs to class, no instance needed (Class.method()).
+- Use static for stateless helpers or factory methods; use instance methods for object-specific behavior.
+
+5. Return type and void
+- Methods can return a value; use void if nothing is returned.
+- Always return a value compatible with the declared return type on all code paths.
+
+6. Parameters and passing
+- Java is pass-by-value: references are copies of pointers, so you can mutate object state but cannot rebind the caller variable.
+- Use immutable objects or defensive copies to avoid unintended side effects.
+
+7. Overloading, Overriding, and Signature
+- Overloading: same method name, different parameter types or count within the same class.
+- Overriding: subclass provides a different implementation with same signature; use @Override annotation.
+- Method signature for overload resolution: name + parameter types (return type not part of signature).
+
+8. Varargs
+- Use T... args to accept a variable number of parameters.
+- Varargs must be the last parameter.
+
+9. Recursion
+- Methods may call themselves (recursion) but watch for base case and stack depth.
+- Tail-call optimization is NOT guaranteed in Java.
+
+10. Exception handling
+- Methods can declare checked exceptions with throws.
+- Document what exceptions can be thrown; consider custom exceptions for clarity.
+
+11. Generic methods
+- Methods can be generic by declaring type parameters: public static <T> T first(List<T> list)
+
+12. Method references & lambdas (Java 8+)
+- Instances of functional interfaces can be created from method references (Class::method) and lambdas for concise behavior.
+
+13. Constructors vs methods
+- Constructor name equals the class name, no return type, called with new; used for object initialization.
+- Constructor is not a method, though it behaves similarly.
+
+14. Best practices
+- Single Responsibility: method should do one thing well.
+- Keep methods small and readable.
+- Use clear names (verb-first for actions).
+- Avoid excessive side effects; prefer pure functions where possible.
+- Document public methods with Javadoc: @param, @return, @throws.
+- Write unit tests for behavior.
+
+15. Thread-safety
+- For shared mutable state, consider synchronization, immutable objects, or concurrent collections.
+- Synchronize only necessary sections to avoid contention.
+
+16. Useful patterns
+- Factory methods (static) for controlled object creation.
+- Builder or fluent APIs using method chaining (return this).
+- Utility classes with private constructor and static methods.
+
+17. Examples
+- Simple instance method:
+public double toCelsius(double fahrenheit) {
+    return (fahrenheit - 32) * 5.0 / 9.0;
+}
+
+- Overloaded methods:
+public void log(String msg) { log(msg, Level.INFO); }
+public void log(String msg, Level level) { /* ... */ }
+
+- Generic method:
+public static <T> T last(List<T> list) { return list.get(list.size() - 1); }
+
+18. Quick checklist when writing a method
+- Is the name descriptive?
+- Is the method small enough to understand quickly?
+- Do parameters and return types make the contract clear?
+- Are side effects documented/controlled?
+- Is it covered by unit tests?
+
+Keep methods clear, minimal, and well-documented. They are the primary unit of behavior and a foundation of clean, 
+maintainable object-oriented design.
+
+
+
+### Method Overloading
+
+- Definition:
+    - Method overloading means multiple methods in the same class (or in inherited scope) have the same name but different parameter lists (different number, types, or order of parameters).
+    - Return type alone does not create an overload — parameter list must differ.
+    - Overloading is resolved at compile time (static binding).
+
+- Rules & details:
+    - Different parameter count, different parameter types, or different parameter order are valid overloads.
+    - Varargs, autoboxing and primitive widening affect which overload is chosen.
+    - When multiple candidates match, the compiler picks the most specific applicable method.
+    - Ambiguous calls (e.g., two equally specific matches) produce a compile-time error.
+    - Overloading works with constructors as well.
+    - Overloading differs from overriding: overriding replaces behavior in a subclass with the exact same signature.
+
+- Common pitfalls:
+    - Relying on return type differences only causes compilation errors.
+    - Generic signatures that erase to the same runtime signature can conflict.
+    - Overuse of overloads reduces readability — prefer different names when behavior meaningfully differs.
+
+- Best practices:
+    - Keep overloads consistent and predictable.
+    - Maintain the same semantic meaning across overloads (e.g., they do the "same" operation with different inputs).
+    - Avoid ambiguous overloads that confuse callers.
+
+- Examples
+
+Example 1: simple numeric overloads
+public static int sum(int a, int b) { return a + b; }
+public static long sum(long a, long b) { return a + b; }
+public static int sum(int a, int b, int c) { return a + b + c; }
+
+Example 2: strings and varargs
+public static String join(String a, String b) { return a + b; }
+public static String join(String... parts) {
+        StringBuilder sb = new StringBuilder();
+        for (String p : parts) sb.append(p);
+        return sb.toString();
+}
+
+Example 3: autoboxing & ambiguity
+public static void print(Integer i) { System.out.println("Integer " + i); }
+public static void print(Long l)    { System.out.println("Long " + l); }
+// print(null) -> compile-time error because null matches both equally -> ambiguous
+
+Example 4: most-specific selection
+public static void example(Object o)  { System.out.println("object"); }
+public static void example(String s)  { System.out.println("string"); }
+// example(null) -> calls example(String) because String is more specific than Object
+
+Example 5: overloading vs different behavior
+public static double area(double r)                 { return Math.PI * r * r; } // circle
+public static double area(double w, double h)       { return w * h; } // rectangle
+
+- Notes on resolution:
+    - Exact match preferred.
+    - Widening primitive conversion next.
+    - Autoboxing/unboxing after widening.
+    - Varargs least preferred.
+    - If two candidates are equally specific after these rules, the call is ambiguous.
+
+Keep overloads small in number, consistent in intent, and unambiguous for callers.

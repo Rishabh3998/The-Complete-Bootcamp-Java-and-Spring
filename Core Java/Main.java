@@ -218,6 +218,21 @@ public class Main {
 
         int sum = calc.add(10, 20);
         System.out.println("Sum from Calculator class: " + sum);
+
+        // Creating Object of Computer class
+        Computer myComputer = new Computer();
+
+        myComputer.playMusic();
+
+        String pen = myComputer.getMeAPen();
+        System.out.println(pen);
+
+        // Method Overloading
+        int sumTwo = calc.add(5, 10);
+        int sumThree = calc.add(5, 10, 15);
+
+        System.out.println("Sum of two numbers: " + sumTwo);       // Output: 15
+        System.out.println("Sum of three numbers: " + sumThree);   // Output: 30
     }
 }
 
@@ -239,6 +254,22 @@ class Calculator {
     // Methods
     public int add(int a, int b) {
         return a + b;
+    }
+
+    public int add(int a, int b, int c) {
+        return a + b + c;
+    }
+}
+
+class Computer {
+
+    // Methods
+    public void playMusic() {
+        System.out.println("Playing music...");
+    }
+
+    public String getMeAPen() {
+        return "Here is a pen.";
     }
 }
 
