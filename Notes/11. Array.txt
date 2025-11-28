@@ -1,0 +1,109 @@
+Introduction to Array
+=====================
+
+1. Overview
+- Fixed-size, ordered collection of elements of the same type.
+- Can hold primitives or objects.
+- Zero-based indexing.
+- Stored as contiguous memory with direct access by index.
+
+2. Declaration, Allocation, Initialization
+- Declaration:
+    int[] a;
+    String[] s;
+
+- Allocation:
+    a = new int[5];
+
+- Combined:
+    int[] a = new int[5];
+
+- Static initialization:
+    int[] b = {1, 2, 3};
+
+- Inline (only at declaration):
+    int[] c = new int[] {4,5,6};
+
+- Multidimensional:
+    int[][] grid = new int[3][4];
+    int[][] ragged = { {1,2}, {3}, {4,5,6} };
+
+3. Default values
+- int -> 0, double -> 0.0, boolean -> false, reference types -> null.
+
+4. Size and bounds
+- Use length property (not method): a.length
+- Accessing invalid index -> ArrayIndexOutOfBoundsException.
+
+5. Iteration
+- Traditional for:
+    for (int i = 0; i < arr.length; i++) { ... }
+
+- Enhanced for:
+    for (int x : arr) { ... }
+
+- Streams:
+    Arrays.stream(arr).forEach(...)
+
+6. Array vs List
+- Arrays: fixed-size, primitive arrays exist.
+- ArrayList: dynamic size, works with objects (autoboxing for primitives), more flexible.
+
+7. Utility methods (java.util.Arrays)
+- toString / deepToString
+- equals / deepEquals
+- sort / parallelSort
+- binarySearch
+- copyOf / copyOfRange
+- fill
+- asList (wraps array as fixed-size List)
+- stream / parallelStream
+
+Examples:
+- Arrays.toString(arr)
+- int[] copy = Arrays.copyOf(arr, newSize);
+- Arrays.sort(arr);
+- Arrays.fill(arr, 42);
+- List<Integer> list = Arrays.asList(1,2,3); // fixed size
+
+8. Cloning and copying
+- arr.clone() -> shallow copy of array (copies references)
+- System.arraycopy(src, srcPos, dest, destPos, length) -> fast copy
+- Deep copy requires manual copying for nested arrays or cloning elements.
+
+9. Equality and hashing
+- arr.equals(other) -> same reference check (Object.equals)
+- Arrays.equals(arr1, arr2) -> element-wise for 1D
+- Arrays.deepEquals for nested arrays
+- Arrays.hashCode / Arrays.deepHashCode for hashing
+
+10. Covariance and type-safety
+- Object[] objs = new String[5]; // allowed (covariant)
+- Runtime ArrayStoreException when storing incompatible type:
+    Object[] obj = new String[5];
+    obj[0] = Integer.valueOf(1); // throws ArrayStoreException
+
+11. Varargs
+- Method signature: void m(String... args) -> treats args as String[]
+- Varargs are just arrays at runtime.
+
+12. Performance notes
+- Fast indexed access.
+- Resizing requires copying to a new array (ArrayList does this under the hood).
+- Use primitive arrays to avoid boxing/unboxing overhead.
+
+13. Newer API helpers (useful)
+- Arrays.setAll(arr, i -> f(i));
+- IntStream.range(0, n).map(i -> fn(i)).toArray();
+- Arrays.parallelPrefix, Arrays.parallelSetAll for parallel ops.
+
+Short examples
+--------------
+int[] nums = {1,2,3};
+int[] copy = Arrays.copyOf(nums, nums.length + 2); // [1,2,3,0,0]
+for (int v : nums) System.out.println(v);
+String[] names = new String[] {"Alice","Bob"};
+List<String> list = Arrays.asList(names); // fixed-size view
+
+Remember: arrays are simple and efficient for fixed-size collections; prefer collections (ArrayList, etc.) when you need 
+dynamic sizing and rich APIs.

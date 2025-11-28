@@ -233,6 +233,40 @@ public class Main {
 
         System.out.println("Sum of two numbers: " + sumTwo);       // Output: 15
         System.out.println("Sum of three numbers: " + sumThree);   // Output: 30
+
+        // Reference variable
+        Calculator calc2 = new Calculator(); // calc2 is a reference variable pointing to a Calculator object
+        // calc2 will refer to the new Calculator object created in heap memory
+        // Stack will store the address of the object created in heap memory
+
+        // Arrays
+        int[] arr = {10, 20, 30, 40, 50};
+        System.out.println("Array elements:");
+        for (int i = 0; i < arr.length; i++) {
+            System.out.println(arr[i]);     
+        }
+
+        // Dynamic Array Creation
+        int nums[] = new int[5]; // Declaration and instantiation {0,0,0,0,0}
+        nums[0] = 1;
+        nums[1] = 2;
+        nums[2] = 3;
+        nums[3] = 4;
+        nums[4] = 5;
+
+        System.out.println("Nums array elements:");
+        for (int i = 0; i < nums.length; i++) {
+            System.out.println(nums[i]); 
+        }
+
+        // Multi-dimensional Array
+        int[][] matrix = {
+            {1, 2, 3},
+            {4, 5, 6},
+            {7, 8, 9}
+        };
+
+        int numsMulti[][] = new int[3][3];
     }
 }
 
@@ -247,11 +281,12 @@ public class Main {
 // To create object, we need a Class first (Object are created by JVM)
 
 class Calculator {
-    // Properties
+    // Properties or instance variables
     int num1;
     int num2;
 
-    // Methods
+    // Methods here a and b are local variables
+    // Note: Every method will have its own stack memory
     public int add(int a, int b) {
         return a + b;
     }
@@ -259,6 +294,15 @@ class Calculator {
     public int add(int a, int b, int c) {
         return a + b + c;
     }
+
+    // Overloaded method for double parameters
+    public double add(double a, double b) {
+        return a + b;
+    }   
+
+    // Note: Method Overloading - Same method name with different parameters
+    // We can have different number of parameters or different types of parameters
+    // We call this method overloading, we have method with same name but different signatures
 }
 
 class Computer {

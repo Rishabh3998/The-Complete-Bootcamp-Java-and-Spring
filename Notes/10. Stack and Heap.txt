@@ -1,0 +1,79 @@
+Stack vs Heap in Java - Notes
+============================
+
+Overview
+--------
+- JVM memory is divided into logical regions: Stack (per thread), Heap (shared by all threads),
+    and the method area / Metaspace (class metadata, static info).
+- Stack: stores stack frames for method calls, local primitives and object references.
+- Heap: stores all objects and arrays (actual object data). Garbage-collected.
+
+Stack (key points)
+------------------
+- One stack per thread.
+- Last-In-First-Out (LIFO) structure of frames (method activation records).
+- Each frame contains: local variables (primitives + references), operand stack, return address, and frame metadata.
+- Fast allocation / deallocation (push/pop).
+- Bounded size: too deep recursion or too many frames → StackOverflowError.
+- Local primitives live on the stack; object references live on the stack but they point to objects on the heap.
+
+Heap (key points)
+-----------------
+- Shared by all threads.
+- Stores objects, arrays, and typically static data references; class metadata lives in Metaspace (outside the heap).
+- Managed by Garbage Collector (GC) — reclaim unreachable objects.
+- Heap can be large and fragmented; allocation is slightly slower than stack but optimized (e.g., generational GC).
+- OutOfMemoryError: Java heap space when no space can be allocated.
+- Objects have headers (type, GC info), fields, and array data.
+
+Common pitfalls
+--------------
+- Memory leak patterns: long-living references (static collections, caches) prevent GC.
+- Escaping references: storing references in collections/static fields extends lifetimes.
+- Large object creation and retention increases GC pressure.
+- Multithreading: heap is shared so must synchronize access; stack is thread-local and doesn't need synchronization.
+
+Diagrams (ASCII)
+-----------------
+Single-threaded view:
+
+        +--------------------+       +-------------------------------+
+        |     THREAD STACK   |       |             HEAP              |
+        | (Top -> Bottom)    |       |   (shared objects & arrays)   |
+        |--------------------|       |-------------------------------|
+        | frame: main()      |       |  [Object A]  { field1, ... }  |
+        |  - local int i     |       |                               |
+        |  - ref -> objA  ---+-----> |  [Object B]  { ref -> ObjectA }|
+        |--------------------|       |                               |
+        | frame: foo()       |       |  [int[]]     { 1,2,3,4 }      |
+        |  - local ref -> B  |  ---->|                               |
+        |--------------------|       +-------------------------------|
+        | frame: bar()       |
+        |  - local primitives|
+        +--------------------+
+
+Multi-threaded overview:
+
+        Thread-1 Stack       Thread-2 Stack
+        +------------+       +------------+      +----------------------+
+        | frame ...  |       | frame ...  |      |       HEAP           |
+        |    ...     |  <--->|    ...     | <--> | [Shared Object X]    |
+        +------------+       +------------+      | [Shared Object Y]    |
+                                                 +----------------------+
+
+Notes on class/static data
+--------------------------
+- Class metadata moved to Metaspace (native memory) in modern JVMs.
+- Static fields are reachable via class objects; static references keep objects alive (so practically observed in heap reachability).
+
+Quick tips
+----------
+- Use profilers (VisualVM, YourKit, Java Flight Recorder) to inspect heap usage and memory leaks.
+- Tune -Xmx/-Xms for heap size, -Xss for thread stack size.
+- Prefer short-lived objects and avoid global/static retention when possible.
+
+Summary
+-------
+- Stack = thread-local, fast, stores method frames and references/primitives.
+- Heap = shared, GC-managed, stores objects and arrays.
+- Understanding both helps diagnose StackOverflowError, OutOfMemoryError, and memory leaks.
