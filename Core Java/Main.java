@@ -266,7 +266,30 @@ public class Main {
             {7, 8, 9}
         };
 
+        System.out.println("Matrix elements:");
+        for (int i = 0; i < matrix.length; i++) {
+            for (int f = 0; f < matrix[i].length; f++) {
+                System.out.print(matrix[i][f] + " ");
+            }
+            System.out.println();
+        }
+
         int numsMulti[][] = new int[3][3];
+
+        for (int i = 0; i < 3; i++) {
+            for (int f = 0; f < 3; f++) {
+                numsMulti[i][f] = i + f;
+            }
+        }
+
+        System.out.println("NumsMulti elements:");
+        for (int i = 0; i < numsMulti.length; i++) {
+            for (int f = 0; f < numsMulti[i].length; f++) {
+                System.out.print(numsMulti[i][f] + " ");    
+
+            }
+            System.out.println();
+        }   
     }
 }
 
