@@ -290,6 +290,79 @@ public class Main {
             }
             System.out.println();
         }   
+
+        // Jagged array: Arrays with different number of columns in each row
+        int n[][] = new int[3][];
+
+        n[0] = new int[3];
+        n[1] = new int[2];
+        n[2] = new int[4];
+
+        System.out.println("Jagged Array elements:");
+        for (int i = 0; i < n.length; i++) {
+            for (int f = 0; f < n[i].length; f++) {
+                n[i][f] = i + f;
+                System.out.print(n[i][f] + " ");        
+            }
+            System.out.println();
+        }
+
+        for (int no[] : n) {
+            for (int val : no) {
+                System.out.print(val + " ");
+            }
+            System.out.println();
+        }
+
+        // 3D Array: Array with three dimensions
+        int[][][] threeDArray = {
+            { {1, 2}, {3, 4} },
+            { {5, 6}, {7, 8} }
+        };  
+
+        System.out.println("3D Array elements:");
+        for (int i = 0; i < threeDArray.length; i++) {
+            for (int g = 0; g < threeDArray[i].length; g++) {
+                for (int h = 0; h < threeDArray[i][j].length; h++) {
+                    System.out.print(threeDArray[i][g][h] + " ");
+                }
+                System.out.println();   
+            }
+        }
+
+        int threeD[][][] = new int[2][2][2];
+
+        System.out.println("3D Array (threeD) elements:");
+
+        for (int i = 0; i < 2; i++) {
+            for (int g = 0; g < 2; g++) {
+                for (int h = 0; h < 2; h++) {
+                    threeD[i][g][h] = i + g + h;
+                    System.out.print(threeD[i][g][h] + " ");
+                }
+            }
+        }
+
+        // Array of Objects
+        Calculator[] calculators = new Calculator[3];
+        
+        for (int i = 0; i < calculators.length; i++) {
+            calculators[i] = new Calculator();
+        }
+        
+        System.out.println("Array of Objects (Calculator) elements:");
+        
+        for (int i = 0; i < calculators.length; i++) {
+            int sumCalc = calculators[i].add(i, i * 2);
+            System.out.println("Sum from calculators[" + i + "]: " + sumCalc);
+        }
+
+        // For each loop for array of objects [only works with arrays and array type of data and collections]
+        System.out.println("Using For-Each loop for Array of Objects (Calculator):");
+        for (Calculator calculator : calculators) {
+            int sumCalc = calculator.add(5, 10);
+            System.out.println("Sum from Calculator object: " + sumCalc);
+        }
     }
 }
 

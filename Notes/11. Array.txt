@@ -107,3 +107,44 @@ List<String> list = Arrays.asList(names); // fixed-size view
 
 Remember: arrays are simple and efficient for fixed-size collections; prefer collections (ArrayList, etc.) when you need 
 dynamic sizing and rich APIs.
+
+14. Jagged Arrays (Ragged Arrays)
+- Definition: An array of arrays where sub-arrays can have different lengths.
+- In Java: int[][] jagged = new int[3][]; jagged[0] = new int[2]; jagged[1] = new int[4]; jagged[2] = new int[1];
+- Memory: Each row is a separate array object; rows need not be contiguous or same size.
+- Use cases: Representing irregular grids, triangular matrices, varying-length records (e.g., CSV rows).
+- Iteration example:
+    for (int i = 0; i < jagged.length; i++) {
+        for (int j = 0; j < jagged[i].length; j++) {
+            // use jagged[i][j]
+        }
+    }
+
+15. 3D Arrays
+- Definition: An array whose elements are 2D arrays; conceptually a 3D grid (depth × rows × cols).
+- Declaration:
+    int[][][] cube = new int[depth][rows][cols];
+  or ragged: int[][][] ragged = new int[2][][]; ragged[0] = new int[3][4];
+- Access: cube[d][r][c]
+- Iteration pattern: three nested loops:
+    for (int d = 0; d < cube.length; d++) {
+        for (int r = 0; r < cube[d].length; r++) {
+            for (int c = 0; c < cube[d][r].length; c++) {
+                // process cube[d][r][c]
+            }
+        }
+    }
+- Use cases: volumetric data, multi-channel images, time-series of matrices.
+
+16. Drawbacks of Arrays
+- Fixed size: cannot grow or shrink; resizing requires creating a new array and copying.
+- Costly inserts/deletes: middle insert/remove requires shifting elements (O(n)).
+- Homogeneous types only: all elements must be of the same declared type; primitives vs objects require care.
+- Boxing/unboxing overhead: collections of primitives require wrapper types or specialized classes.
+- Shallow copy semantics: clone() copies array structure; object references inside remain shared.
+- No rich APIs: arrays lack convenient manipulation methods (Collections provide richer operations).
+- Covariance pitfalls: arrays are covariant at runtime (e.g., Object[] = new String[...]) and can throw ArrayStoreException.
+- Potential for errors: risk of ArrayIndexOutOfBoundsException when using wrong indices.
+- Not ideal for concurrency: not inherently thread-safe when modified by multiple threads.
+- Memory considerations: large contiguous arrays may cause fragmentation/large allocation failures; jagged arrays can mitigate
+contiguous-size problems.
