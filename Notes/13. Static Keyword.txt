@@ -1,0 +1,116 @@
+### Static variable
+
+- Definition
+    - Declared with the `static` keyword inside a class.
+    - Belongs to the class rather than any particular instance.
+    - Only one copy exists per class per classloader.
+
+- Memory and lifecycle
+    - Allocated when the class is loaded by the JVM.
+    - Lives until the class is unloaded (often for the duration of the program).
+    - Initialized to default values (0, false, null) before any static initializers run.
+
+- Access
+    - Commonly accessed using ClassName.variable (preferred).
+    - Can also be accessed via instances, but that is misleading.
+    - Accessible from both static and instance methods.
+
+- Initialization order
+    - Static variables and static initializer blocks execute in textual order at class load time.
+    - Instance variables and instance initializers run when an object is created, after static initialization.
+
+- static final
+    - `static final` gives a constant at class level.
+    - If compile-time constant (primitive or String), it is inlined into callers.
+    - For complex objects, `static final` ensures one immutable reference, but object can still be mutable.
+
+- Use cases
+    - Constants (public static final).
+    - Shared counters or caches (e.g., instanceId counter, shared pool).
+    - Utility classes where state isn't per-instance (though prefer stateless).
+
+- Thread-safety
+    - Because a static variable is shared, concurrent access must be synchronized or made atomic when modified.
+    - Consider `volatile`, `synchronized`, or atomic classes (`AtomicInteger`).
+
+- Inheritance
+    - Static fields are inherited, but they are still class-level — referring to them via subclass name accesses 
+    the same variable unless shadowed.
+    - Shadowing static fields (i.e., same name in subclass) hides the superclass field (not polymorphic).
+
+- Common pitfalls
+    - Unintended shared mutable state leading to bugs in multi-threaded contexts.
+    - Memory leaks by holding large objects in static fields.
+    - Surprise from `static final` inlining across modules if recompiled separately.
+
+- Example
+    - A simple instance counter and constant:
+
+        class User {
+                // class-level counter shared by all instances
+                private static int instanceCount = 0;
+
+                // constant
+                public static final String TYPE = "User";
+
+                private final int id;
+
+                public User() {
+                        id = ++instanceCount;
+                }
+
+                public int getId() { return id; }
+                public static int getInstanceCount() { return instanceCount; }
+        }
+
+    - Usage:
+        User u1 = new User();
+        User u2 = new User();
+        System.out.println(User.getInstanceCount()); // 2
+        System.out.println(User.TYPE); // "User"
+
+Summary: static variables provide one shared field per class and are initialized at class load time. 
+Use them for constants and genuinely shared state; be careful with concurrency, initialization order, 
+and memory management.
+
+
+### Static initializer block (static block)
+
+- Definition
+    - A static block is a block of code prefixed with `static { ... }` inside a class.
+    - Runs once when the class is initialized (class loading + initialization step).
+
+- When it executes
+    - Executed at class initialization time, before any static methods/fields are used and before any instances are created.
+    - JVM guarantees initialization happens at most once per classloader and is thread-safe.
+
+- Ordering
+    - Multiple static blocks execute in textual order.
+    - Static blocks run before instance initializers and constructors.
+    - For inheritance, superclass static blocks execute before subclass static blocks.
+
+- Error handling
+    - If a static block throws an unchecked exception, class initialization fails and throws ExceptionInInitializerError.
+    - Checked exceptions must be caught/handled inside the block.
+
+- Use cases
+    - Complex or conditional static initialization (e.g., loading configuration, building immutable caches).
+    - Registering native libraries or performing one-time verification/registration.
+    - Avoid heavy I/O in static blocks if it can delay class loading or complicate testing.
+
+- Best practices
+    - Keep static blocks small and deterministic.
+    - Prefer explicit initialization methods (or lazy initialization) for complex logic to improve testability and control.
+    - Remember static final compile-time constants don't need blocks — they're initialized inline.
+
+- Example
+    class Config {
+        private static final Map<String,String> DEFAULTS = new HashMap<>();
+        static {
+            // do only deterministic setup; catch exceptions if needed
+            DEFAULTS.put("timeout", "30");
+            DEFAULTS.put("host", "localhost");
+            // catch/handle any checked exceptions; avoid long blocking ops
+        }
+        public static String get(String k) { return DEFAULTS.get(k); }
+    }

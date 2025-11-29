@@ -431,6 +431,50 @@ public class Main {
         // StringBuilder vs StringBuffer
         // StringBuilder is not synchronized, hence faster but not thread-safe.
         // StringBuffer is synchronized, hence thread-safe but slower.
+
+        // Static variable: static variable belongs to the class rather than any specific instance
+        Mobile mb = new Mobile();
+        mb.brand = "Apple";
+        mb.price = 1500;
+        mb.name = "iPhone 14";
+        Mobile.deviceType = "Smartphone"; // Setting static variable
+
+        mb.show();
+
+        Mobile mb2 = new Mobile();
+        mb2.brand = "Samsung";
+        mb2.price = 1200;
+        mb2.name = "Galaxy S23";
+        Mobile.deviceType = "Smartphone"; // Static variable shared across all instances
+
+        mb2.show();
+
+        // Accessing static method without creating object
+        // Static method can be accessed using class name directly
+        // Static method cannot access non-static variables directly
+        // Static method can access static variables directly
+        // Here we are accessing static method displayDeviceType() of Mobile class
+        // without creating object of Mobile class
+        Mobile.displayDeviceType();
+
+        // Why the main method is static?
+        // The main method is static because it needs to be called by the JVM without creating an instance of the class.
+        // This allows the program to start executing from the main method without needing to instantiate the class first.
+        // If main were not static, the JVM would need to create an instance of the class to call main, 
+        // which would complicate the startup process. 
+        // By making main static, it can be invoked directly using the class name.
+        // This is essential for the program's entry point to be accessible and executable by the JVM.
+        // Hence, the main method is declared as static.
+
+        // For calling main we don't need to create object of Main class
+        // So, we will just call Main.main() directly if needed
+
+        // Static Block
+        // Static block is used to initialize static variables
+        // It is executed when the class is loaded
+        // It is executed only once
+        // It is executed before the main method
+        // We can have multiple static blocks in a class
     }
 }
 
@@ -478,6 +522,53 @@ class Computer {
 
     public String getMeAPen() {
         return "Here is a pen.";
+    }
+}
+
+class Mobile {
+    // Properties or instance variables
+    String brand;
+    int price;
+    String name;
+
+    // static variable shared by all objects of Mobile class
+    // static will make this variable common for all objects
+    // static variables are stored in the class memory area
+    static String deviceType; 
+
+    // static variable should be initialized only once
+    // We can initialize static variable in static block or directly
+
+    // This block will be executed only once when the class is loaded
+    // Even if you create multiple objects, this block will be executed only once
+    static {
+        deviceType = "Generic Mobile Device";
+    }
+
+    // Constructor
+    // Constructor is a special method which is called when an object is created
+    // It can be called multiple times for multiple objects
+    // Constructor will be called after static block
+    public Mobile() {
+        // Default constructor
+        brand = "Unknown";
+        price = 200;
+        name = "Unknown";
+    }
+
+    // Methods
+    public void show() {
+        // Printing mobile details using local variables
+        // In non-static method, we can access static variables directly but vice-versa is not true
+        // In a static method, we cannot access non-static variables directly
+        System.out.println(brand + ": " + name + " costs $" + price + " and is a " + deviceType);
+    }
+
+    // Static Method
+    public static void displayDeviceType() {
+        // Accessing static variable in static method
+        // Cannot access non-static variables here like brand, price, name
+        System.out.println("Device Type: " + deviceType);
     }
 }
 
