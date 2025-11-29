@@ -1,0 +1,118 @@
+String in Java
+
+1. Definition
+- java.lang.String is the standard immutable sequence of characters.
+- Represents text using UTF-16 internally (char[] or byte[] depending on JVM optimizations).
+- In Java String is not a primitive datatype, It's a class. [String name = "Rishabh";]
+
+2. Immutability
+- Once created, a String's contents cannot change.
+- Guarantees thread-safety for read-only access.
+- Implies safe caching (e.g., hashCode) and use as Map keys.
+
+3. String pool (literal pool) and interning
+- String literals are interned in the runtime constant pool.
+- Two identical literals reference the same object.
+- new String("x") creates a new object; use String.intern() to add to or reuse pool.
+
+4. Creation
+- Literal: String s = "hello";
+- Constructor: String s = new String("hello");
+- From char[] / byte[]: new String(charArray) or new String(bytes, charset)
+- From StringBuilder/StringBuffer: builder.toString()
+
+5. Equality and comparison
+- == compares object references.
+- equals() compares character sequences.
+- equalsIgnoreCase() ignores case.
+- compareTo()/compareToIgnoreCase() for ordering (lexicographic).
+
+6. Common methods
+- length(), charAt(index), isEmpty()
+- substring(begin, end)
+- indexOf/lastIndexOf
+- contains, startsWith, endsWith
+- toLowerCase(), toUpperCase()
+- trim(), strip/PAD variants (Java 11)
+- replace(), replaceAll(regex, repl), replaceFirst()
+- split(regex)
+- join(delimiter, elements) (Java 8+)
+- format(Locale, format, args)
+
+7. Performance considerations
+- Concatenation with + in loops creates many intermediate Strings (expensive).
+- Use StringBuilder (single-threaded) or StringBuffer (thread-safe) for repeated concatenation.
+- Prefer char[] for heavy, mutable character manipulation.
+- Avoid unnecessary new String() calls; prefer literals or reuse.
+
+8. Memory and security
+- String immutability prevents accidental or malicious modification.
+- Sensitive data in Strings stays in memory until GC; for secrets, prefer char[] and explicitly overwrite.
+
+9. StringBuilder vs StringBuffer
+- StringBuilder: not synchronized, better performance.
+- StringBuffer: synchronized, thread-safe but slower.
+
+10. Useful tips
+- Use Objects.equals(a,b) for null-safe equality checks.
+- Prefer constants on left in equals: "literal".equals(var)
+- Use String::valueOf for null-safe conversions (returns "null" for null).
+- Use regex with Pattern and Matcher for complex matching (compile Pattern if reused).
+
+11. Examples
+- Concatenate: String result = new StringBuilder().append(a).append(b).toString();
+- Compare: if (s.equalsIgnoreCase("yes")) { ... }
+- Extract: String name = s.substring(0, s.indexOf(','));
+
+12. Java versions differences
+- Compact Strings (JDK9+) store bytes + coder for memory efficiency.
+- New API additions over time (String::isBlank, strip, repeat in Java 11+).
+
+Summary: Strings are immutable, widely used for text, efficient when used correctly (avoid repeated concatenation), and 
+require special care for performance and sensitive data.
+
+
+
+### Mutable vs Immutable Strings in Java
+
+- Immutable (String)
+    - String objects cannot be changed after creation.
+    - Any operation that appears to modify a String actually creates a new String object.
+    - Benefits: thread-safety for read-only access, safe to use as Map keys.
+    - Drawbacks: repeated concatenation creates many intermediate objects (use StringBuilder for heavy mutation).
+
+Example (immutable behavior):
+String a = "hello";
+String b = a;
+a = a + " world";           // creates a new String and reassigns a
+System.out.println(a);      // "hello world"
+System.out.println(b);      // "hello"
+System.out.println(a == b); // false (different objects)
+
+- Mutable (StringBuilder / StringBuffer)
+    - StringBuilder and StringBuffer are mutable sequences of characters.
+    - append/insert/replace modify the same object, avoiding many intermediate allocations.
+    - StringBuffer is synchronized (thread-safe), StringBuilder is not (faster single-threaded).
+
+Example (mutable behavior):
+StringBuilder sb1 = new StringBuilder("hello");
+StringBuilder sb2 = sb1;
+sb1.append(" world");         // modifies the same instance in-place
+System.out.println(sb1);      // "hello world"
+System.out.println(sb2);      // "hello world"
+System.out.println(sb1 == sb2); // true (same object)
+
+- Performance illustration:
+String s = "";
+for (int i = 0; i < 1000; i++) s += "x";               // O(n^2), many intermediate Strings
+StringBuilder sb = new StringBuilder();
+for (int i = 0; i < 1000; i++) sb.append("x");         // amortized O(n), much faster
+
+- Security note
+    - Strings are immutable and may remain in memory until GC, so avoid storing secrets in Strings.
+    - Use char[] for secrets and overwrite it after use:
+char[] secret = new char[] {'s','e','c','r','e','t'};
+Arrays.fill(secret, '\0'); // clears secret from memory (best-effort)
+
+Summary: Use String when immutability and safety are desired. Use StringBuilder/StringBuffer for heavy, mutable, 
+or performance-sensitive text manipulation. Use char[] for sensitive data to enable explicit clearing.

@@ -363,6 +363,74 @@ public class Main {
             int sumCalc = calculator.add(5, 10);
             System.out.println("Sum from Calculator object: " + sumCalc);
         }
+
+        // String in Java
+        String greeting = "Hello, World!";
+        System.out.println("Greeting: " + greeting);
+
+        String name = new String();
+        System.out.println("Name (empty string): " + name);
+
+        String fullName = new String("Rishabh Kumar");
+        System.out.println("Full Name: " + fullName);
+
+        // concat method
+        String firstName = "Rishabh";
+        String lastName = "Kumar";
+        String completeName = firstName.concat(" ").concat(lastName);
+        System.out.println("Complete Name using concat(): " + completeName);
+
+        // Mutable vs Immutable Strings in Java
+        // Immutable (String)
+        String immutableStr = "Hello";
+        immutableStr.concat(", World!"); // This does not change the original string
+        System.out.println("Immutable String: " + immutableStr); // Output: Hello
+
+        // Mutable (StringBuilder)
+        StringBuilder mutableStr = new StringBuilder("Hello");
+        mutableStr.append(", World!"); // This changes the original string
+        System.out.println("Mutable StringBuilder: " + mutableStr.toString()); // Output: Hello, World!
+        System.out.println("Mutable StringBuilder Length: " + mutableStr.length()); // Output: 13
+
+        // Example:
+        String original = "Java";
+
+        original = original + " Programming"; // Creates a new string
+        System.out.println("After concatenation, original: " + original); // Output: Java Programming
+        
+        // In the string constant pool, "Java" remains unchanged.
+        // The new string "Java Programming" is created in the heap memory.
+        // Hence, strings are immutable in Java.
+        // the reference variable 'original' now points to the new string in heap memory.
+        // The old string "Java" in the string constant pool is eligible for garbage collection if no references point to it.
+        // This demonstrates the immutability of strings in Java.
+        
+        // As we know that original was pointing to "Java" initially in the string constant pool.
+        // After concatenation, original now points to "Java Programming" in heap memory, so we are just changing
+        // the reference of original to a new string, not modifying the existing string.
+
+        // StringBuffer
+        StringBuffer stringBuffer = new StringBuffer("Hello");
+        
+        StringBuffer sb = new StringBuffer(); // Default capacity is 16 with Empty string
+        // StringBuffer gives us a buffer size which is of 16 bytes by default.
+        System.out.println("Default StringBuffer Capacity: " + sb.capacity()); // Output: 16
+
+        stringBuffer.append(", World!"); // This changes the original string
+        System.out.println("Mutable StringBuffer: " + stringBuffer.toString()); // Output: Hello, World!
+        System.out.println("Mutable StringBuffer Length: " + stringBuffer.length()); // Output: 13
+
+        // Capacity increases as needed
+        sb.append("This is a long string to demonstrate capacity increase in StringBuffer.");
+        System.out.println("StringBuffer after appending long string: " + sb.toString());
+        System.out.println("StringBuffer Capacity after appending: " + sb.capacity()); // Capacity increases
+
+        // Default capacity is 16 for Empty string
+        // Suppose we have Rishabh the the capacity will be 16 + length of Rishabh = 16 + 7 = 23
+
+        // StringBuilder vs StringBuffer
+        // StringBuilder is not synchronized, hence faster but not thread-safe.
+        // StringBuffer is synchronized, hence thread-safe but slower.
     }
 }
 
