@@ -1,0 +1,91 @@
+Encapsulation
+=============
+
+What is encapsulation?
+- Encapsulation groups related data (fields) and behavior (methods) into a single unit (class) and hides internal 
+state from external access.
+- In Java, encapsulation means restricting direct access to fields and exposing a controlled API (getters/setters or methods).
+
+Why use encapsulation?
+- Protect invariants and internal consistency.
+- Reduce coupling (change internals without breaking users).
+- Increase cohesion and readability.
+- Control how values are read or updated (validation, lazy init, logging).
+- Makes testing, maintenance, and securing data easier.
+
+How it works in Java
+- Use access modifiers:
+    - private: field visible only inside class (commonly used for fields).
+    - default (package-private): visible inside same package.
+    - protected: visible to package + subclasses.
+    - public: visible everywhere.
+- Provide public (or package/protected) methods to access or modify state.
+- Use final to make fields non-re-assignable; use immutable patterns for thread-safety and simplicity.
+
+Common patterns & best practices
+- Keep fields private and provide getters/setters only if needed.
+- Prefer immutable objects when possible (private final fields, no setters).
+- Validate input inside setters or factory methods.
+- Avoid exposing internal mutable objects (return defensive copies).
+- Keep getter/setter semantics simple and predictable (avoid complex side-effects).
+- Package API should expose behavior rather than exposing internal data where possible.
+
+Simple example (mutable):
+class Person {
+        private String name;
+        private int age;
+
+        public Person(String name, int age) {
+                setName(name);
+                setAge(age);
+        }
+
+        public String getName() { return name; }
+        public void setName(String name) {
+                if (name == null || name.isBlank()) throw new IllegalArgumentException("name required");
+                this.name = name;
+        }
+
+        public int getAge() { return age; }
+        public void setAge(int age) {
+                if (age < 0) throw new IllegalArgumentException("age must be >= 0");
+                this.age = age;
+        }
+}
+
+Immutable example:
+final class ImmutablePerson {
+        private final String name;
+        private final int age;
+
+        public ImmutablePerson(String name, int age) {
+                if (name == null || name.isBlank()) throw new IllegalArgumentException("name required");
+                if (age < 0) throw new IllegalArgumentException("age must be >= 0");
+                this.name = name;
+                this.age = age;
+        }
+
+        public String getName() { return name; }
+        public int getAge() { return age; }
+}
+
+Defensive copy example (mutable field):
+class Team {
+        private final List<Person> members = new ArrayList<>();
+
+        public List<Person> getMembers() {
+                // return an unmodifiable or a copy to prevent external mutation
+                return Collections.unmodifiableList(members);
+        }
+}
+
+Caveats
+- Reflection can break encapsulation at runtime.
+- Overusing getters/setters to expose everything is bad — prefer behavior-focused APIs.
+- For complex invariants, prefer factory methods and immutable types.
+- Synchronization/volatile necessary for thread-safety if mutable shared state exists.
+
+Summary
+- Encapsulation is essential for robust, maintainable Java code.
+- Use private fields, well-designed getters/setters, immutability and defensive copies.
+- Prefer exposing behavior, validate inputs, and keep internals hidden.

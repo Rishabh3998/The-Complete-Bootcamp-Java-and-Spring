@@ -475,6 +475,21 @@ public class Main {
         // It is executed only once
         // It is executed before the main method
         // We can have multiple static blocks in a class
+
+        // Encapsulation
+        Human human = new Human();
+        human.name = "Rishabh";
+        human.age = 25;
+
+        // By using this human object we can access the properties of Human class
+        System.out.println("Human Name: " + human.name);
+
+        // We cannot make every property of a class public
+        // Because it will violate the encapsulation principle of OOP
+        // So, we make the properties private and provide public getter and setter methods
+        // to access and modify the private properties
+
+
     }
 }
 
@@ -570,5 +585,16 @@ class Mobile {
         // Cannot access non-static variables here like brand, price, name
         System.out.println("Device Type: " + deviceType);
     }
+}
+
+class Human {
+    // Properties or instance variables
+    String name;
+    int age;
+
+    // This email is accessible only within this class
+    // No-one from the outside world can access this email directly
+    private String email;
+
 }
 
