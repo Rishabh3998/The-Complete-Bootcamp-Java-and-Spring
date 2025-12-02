@@ -1,0 +1,21 @@
+### Anonymous object
+
+[Some Context]: So whenever we create any object Eg: Human human = new Human();
+Then, we don't actually create any object, we are creating a reference variable, which is getting stored inside the
+Stack and the address of the object is the value of this reference variable, the real object is getting created inside 
+the heap memory, and the reference variable is pointing to that object via address.
+
+Now, the question is do we really need this line:
+Human human = new Human();
+
+First of all let's learn about reference creation:
+
+A obj; // reference creation
+obj = new A();
+
+new A(); // This is the object creation, the whole line is not object creation
+
+So, the above line where object is getting created but we are not storing it in any reference variable, considered as
+the Anonymous Object.
+
+Object with no name is Anonymous Object. The catch is we cannot re-use this kind of object. It can be use only once.

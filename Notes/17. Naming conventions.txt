@@ -1,0 +1,19 @@
+### Naming Convention in Java
+
+We generally follow some particular naming conventions while writing code in Java, these are:
+
+I. camelCase [showMyMarks(), viewPage(), etc.]
+
+1. For class and Interface:
+   - We start with Capital letters: Calculator, Human, MyData, etc.
+
+2. For Variables and Methods (But if single word is there) : 
+   - We start with small letters: start(), showData(), etc.
+
+3. For Constants:
+   - Whole word should be in Capital letters: PIE, EPSILON, etc.
+
+4. For Multiple Words:
+   - Like showMyMarks(), viewPage(), etc.
+
+II. snake_case [show_my_marks, view_page, etc.]

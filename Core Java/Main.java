@@ -612,6 +612,7 @@ class Human {
     // Constructor
     public Human() {
         // Default constructor
+        // In default constructor we can initialize the properties
         System.out.println("In default constructor of Human class");
     }
 
