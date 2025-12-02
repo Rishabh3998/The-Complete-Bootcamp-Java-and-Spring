@@ -489,7 +489,17 @@ public class Main {
         // So, we make the properties private and provide public getter and setter methods
         // to access and modify the private properties
 
+        // System.out.println("Human Email: " + human.email); // This will give error because email is private
 
+        // Accessing private property using public getter method
+        System.out.println("Human Email using getter: " + human.getEmail());
+
+        // Getting before setting mobile, which will return null
+        System.out.println("Human Mobile using getter: " + human.getMobile());
+
+        // Accessing private mobile property using setter and getter methods
+        human.setMobile("123-456-7890");
+        System.out.println("Human Mobile using getter: " + human.getMobile());
     }
 }
 
@@ -594,7 +604,24 @@ class Human {
 
     // This email is accessible only within this class
     // No-one from the outside world can access this email directly
-    private String email;
+    private String email = "rishabh@gmail.com";
 
+    // Creating private mobile property
+    private String mobile;
+
+    // Public getter method to access private email property
+    public String getEmail() {
+        return email;
+    }
+
+    // Public setter method to modify private mobile property
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+     
+    // Getter method for mobile
+    public String getMobile() {
+        return mobile;      
+    }
 }
 
