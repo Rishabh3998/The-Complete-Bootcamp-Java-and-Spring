@@ -1,0 +1,69 @@
+Constructors
+============
+
+1) Definition
+- A constructor is a special method used to initialize new objects.
+- Name must match the class name.
+- No return type (not even void).
+- Automatically invoked during object creation via `new ClassName(...)`.
+
+2) Types
+- Default constructor: compiler-provided no-arg constructor when no constructors are declared.
+- No-arg constructor: user-defined constructor with no parameters.
+- Parameterized constructor: accepts arguments to initialize fields.
+- Copy constructor: not built-in, but implemented manually to copy fields from another instance.
+
+3) Rules & behavior
+- Can be overloaded (multiple constructors with different parameter lists).
+- If any constructor is defined, compiler does NOT create a default constructor.
+- Access modifiers (public, protected, private) control visibility and instantiation.
+- Constructors are not inherited.
+- Abstract classes can declare constructors (used by subclasses).
+- final fields must be initialized by the constructor (or at declaration).
+
+4) Chaining & inheritance
+- Use `this(...)` to call another constructor in the same class (must be first statement).
+- Use `super(...)` to call a parent class constructor (must be first statement).
+- If no `super(...)` call appears, Java inserts a call to the no-arg constructor of the superclass.
+
+5) Object creation sequence (simplified)
+- Allocate memory and set default values.
+- Execute superclass constructors (top-down).
+- Execute instance variable initializers & instance initializers.
+- Execute the chosen constructor body.
+
+6) Common pitfalls
+- Forgetting to define a no-arg constructor when a framework or serialization needs it.
+- Accidentally declaring a constructor with a return type (becomes a method).
+- Not handling deep copy when copying mutable fields.
+
+7) Examples
+class Point {
+    private final int x, y;
+
+    // parameterized constructor
+    public Point(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    // copy constructor
+    public Point(Point other) {
+        this(other.x, other.y);
+    }
+}
+
+class ColorPoint extends Point {
+    private final String color;
+
+    public ColorPoint(int x, int y, String color) {
+        super(x, y);          // call superclass constructor
+        this.color = color;
+    }
+}
+
+8) When to use
+- Use constructors for mandatory initialization and to keep objects in a valid state.
+- For complex initialization or multiple construction strategies, consider static factory methods.
+
+Note: Everytime we create an object, constructor will be called.

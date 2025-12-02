@@ -1,0 +1,87 @@
+'this' keyword
+==============
+
+1) What is 'this'?
+- 'this' is a reference to the current object (the instance on which a non-static method or constructor is invoked).
+- Useful to refer to instance variables, methods, and to pass the current object to other methods/constructors.
+
+2) Common uses / patterns
+- Disambiguating fields from parameters:
+    public class Person {
+            private String name;
+            public Person(String name) {
+                    this.name = name;           // 'this.name' = field; 'name' = parameter
+            }
+    }
+
+- Calling another constructor in same class (constructor chaining):
+    public class Rectangle {
+            private int w, h;
+            public Rectangle() { this(1, 1); } // must be the first statement
+            public Rectangle(int w, int h) {
+                    this.w = w;
+                    this.h = h;
+            }
+    }
+
+- Returning 'this' for method chaining (fluent APIs):
+    public class Builder {
+            public Builder setA(int a) { this.a = a; return this; }
+    }
+
+- Passing current object as argument:
+    someService.register(this);
+
+3) Rules & restrictions
+- 'this' cannot be used in static context (static methods or static initializers).
+- In constructors, a call to another constructor using this(...) must be the first statement if used.
+- You cannot use 'this' before super() has run during object construction, because the object is not fully initialized.
+- 'this' refers to the current instance; in an instance method it is always available.
+
+4) Inner classes and qualification
+- For non-static inner classes, 'this' refers to the inner instance. To reference the outer instance, use OuterClass.this:
+    class Outer {
+            int x;
+            class Inner {
+                    int x;
+                    void m() {
+                            int innerX = this.x;         // inner's x
+                            int outerX = Outer.this.x;   // outer's x
+                    }
+            }
+    }
+
+- Anonymous inner classes: 'this' refers to the anonymous object itself.
+- Lambda expressions: 'this' refers to the enclosing instance (not the lambda object).
+
+5) Common pitfalls and notes
+- Don't try to use 'this' in static methods: compilation error.
+- Using 'this' inside a constructor to call an instance method that can be overridden may cause issues, because subclasses' 
+overridden methods may run before subclass initialization is complete.
+- Prefer this.field notation when constructor parameter names shadow field names — it's idiomatic and clear.
+
+6) Small examples
+- Disambiguation:
+    public class Example {
+            private int value;
+            public void setValue(int value) {
+                    this.value = value;
+            }
+    }
+
+- Constructor chaining:
+    public class Point {
+            int x, y;
+            public Point() { this(0, 0); }
+            public Point(int x, int y) { this.x = x; this.y = y; }
+    }
+
+- Passing 'this':
+    public class Node {
+            void register(NodeHandler h) { h.accept(this); }
+    }
+
+7) Summary
+- 'this' is the instance reference: use it to disambiguate fields, chain constructors, implement fluent APIs, pass the 
+object around, and refer to outer instances from inner classes.
+- Always remember static contexts cannot use 'this', and constructor chaining rules require this(...) to be first statement.

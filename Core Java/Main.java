@@ -609,6 +609,20 @@ class Human {
     // Creating private mobile property
     private String mobile;
 
+    // Constructor
+    public Human() {
+        // Default constructor
+        System.out.println("In default constructor of Human class");
+    }
+
+    // Parameterized constructor
+    public Human(String name, int age, String email, String mobile) {
+        this.name = name;
+        this.age = age;
+        this.email = email;
+        this.mobile = mobile;
+    }
+
     // Public getter method to access private email property
     public String getEmail() {
         return email;
@@ -623,5 +637,8 @@ class Human {
     public String getMobile() {
         return mobile;      
     }
+
+    // Note: String is Object in Java, therefore the by-default value of String is null
+    // on the other hand, for primitive data-types like int, float, boolean etc the by-default value is 0, 0.0, false.
 }
 
